@@ -1,6 +1,7 @@
 from dash import dcc
 from dash import html
 from dash.dependencies import Input, Output
+import os
 
 # Connect to main app.py file
 from app import app
@@ -46,7 +47,8 @@ def display_page(pathname):
     else:
         return home.layout
 
-
+server = app.server
+#server.secret_key = os.environ.get('secret_key', 'secret')
 
 if __name__ == '__main__':
     app.run_server(debug=True)
