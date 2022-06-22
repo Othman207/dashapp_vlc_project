@@ -16,7 +16,7 @@ district_lat = {'Bah':11.3821629,'Tibiri':13.111496164791635, 'Loga':13.63084321
 
 district_lng = {'Bah':-5.2855289,'Tibiri':4.01065349002892, 'Loga':3.5003297228187784, 'Gaya':3.454853618837945, 'Falmey':2.8502113335337578,'Dogondoutchi':4.033773700350723,'Dioundiou':3.543305405673443, 'Dosso':3.208135897880922}
 
-dataset = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/BFBaseline.xlsx.xlsx')
+dataset = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/BFBaseline.xlsx')
 
 df1 = pd.read_excel(dataset,"Uti2")
 
