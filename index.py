@@ -5,7 +5,7 @@ import os
 
 # Connect to main app.py file
 from app import app
-from app import server
+#from app import server
 # Connect to your app pages
 from apps import home, niger, bf
 
