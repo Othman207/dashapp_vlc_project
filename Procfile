@@ -1,1 +1,1 @@
-web: gunicorn index:server
+web: gunicorn index:server --max-requests 1200
