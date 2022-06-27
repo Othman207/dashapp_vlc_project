@@ -54,4 +54,4 @@ server = app.server
 #server.secret_key = os.environ.get('secret_key', 'secret')
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
