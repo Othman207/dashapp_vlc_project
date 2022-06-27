@@ -7,7 +7,7 @@ import os
 from app import app
 #from app import server
 # Connect to your app pages
-from apps import home, niger, bf
+from apps import home, niger, bf, sen
 
 app.layout = html.Div([
 # html.H1(['Toyota Vaccine Land Cruiser Evaluation Dashboard'],style={'text-align':'center','font-size':'5rem'}),
@@ -16,8 +16,9 @@ app.layout = html.Div([
     html.Div([
         dcc.Link('Niger Republique', href='/apps/niger'),
         dcc.Link('Burkina Faso', href='/apps/bf'),
+        dcc.Link('Senegal', href='/apps/sen'),
     ], className="row"),
-     html.Div(id='page-content', children=[])
+    html.Div(id='page-content', children=[])
     #         html.Div([
     #             html.Img(src="assets/vlcpics/vlc.jpg",
     #                      style={"height": "700px", "width": "100%"})
@@ -44,6 +45,8 @@ def display_page(pathname):
         return niger.layout
     if pathname == '/apps/bf':
         return bf.layout
+    if pathname == '/apps/sen':
+        return sen.layout
     else:
         return home.layout
 
