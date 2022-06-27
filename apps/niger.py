@@ -528,7 +528,9 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                  html.H6(['Average Volume of Vaccines Transported per Month to Districts by Dosso Regional Store Cold Truck'],style={'text-align':'center'}),
+                                                                  html.H6(['Average Volume of Vaccines Transported per Month to Districts by Dosso Regional Store Cold Truck'], id='avgvol',
+                                                                          style={'text-align':'center'}),
+                                                                    dbc.Tooltip("The storage capacity of the conventional truck was used to calculate the average volume it takes to deliver vaccines on a monthly basis", target="avgvol"),
                                                                   html.H2(["{:.2f}".format(avg_volume)],style={'text-align':'center','font-size':'5rem'})
                                                                  ]
                                                     )
@@ -538,7 +540,8 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                 html.Div([dav.HighChart(id="avg-vol",constructorType='chart',options=options_1)])
+                                                                 html.Div([dav.HighChart(id="avg-vol",constructorType='chart',options=options_1)],id='vol_received'),
+                                                                 dbc.Tooltip("This is the total volume of vaccines received by each district in 2021", target="vol_received")
                                                                  ],style={'color':'white'}
                                                     )
                                                     ],className="shadow p-3 mb-5 bg-white rounded border-light"
@@ -553,7 +556,9 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                  html.H6(['Average Cold Truck CCE Utilization at 3,990 Liters Capacity'],style={'text-align':'center'}),
+                                                                  html.H6(['Average Cold Truck CCE Utilization at 3,990 Liters Capacity'], id='bsl_uti',
+                                                                          style={'text-align':'center'}),
+                                                                     dbc.Tooltip('This is the percentage of conventional truck cold storage capacity that is ccupied by vaccines and their diluents for a given time period during transportation.', target='bsl_uti', flip=False),
                                                                   html.H2([str("{:.2f}".format(avg_util))+'%'],style={'text-align':'center','font-size':'5rem'})
                                                                  ]
                                                     )
@@ -564,7 +569,8 @@ layout = dbc.Container(
                                                     dbc.CardBody(
                                                                  [
 
-                                                                 html.Div([dav.HighChart(id="Utilization-with-3990L-Capacity",constructorType='chart',options=options_2)])
+                                                                 html.Div([dav.HighChart(id="Utilization-with-3990L-Capacity",constructorType='chart',options=options_2)], id='avg_uti_truck'),
+                                                                    dbc.Tooltip('This is the percentage of conventional truck cold storage capacity that is ccupied by vaccines and their diluents for a given time period during transportation.', target='avg_uti_truck', flip=False)
 
 
                                                                 ],style={'color':'white'}
@@ -584,7 +590,8 @@ layout = dbc.Container(
                                                    [
                                                    dbc.CardBody(
                                                                 [
-                                                                html.Div([dav.HighChart(id="wastage-by-vacc",constructorType='chart',options=options_6)])
+                                                                html.Div([dav.HighChart(id="wastage-by-vacc",constructorType='chart',options=options_6)], id='sessions_con'),
+                                                                    dbc.Tooltip('Immunization sessions conducted for fixed, mobile and outreach strategies', target='sessions_con')
                                                                 ],style={'color':'white'}
                                                    )
                                                    ],className="shadow p-3 mb-5 bg-white rounded border-light"
@@ -598,7 +605,8 @@ layout = dbc.Container(
                                                    [
                                                    dbc.CardBody(
                                                                 [
-                                                                html.Div([dav.HighChart(id="immunization-sessions-strategy",constructorType='chart',options=options_4)])
+                                                                html.Div([dav.HighChart(id="immunization-sessions-strategy",constructorType='chart',options=options_4)], id='mob_str'),
+                                                                    dbc.Tooltip('Mobile strategies refers to reaching children that reside in locations that are above 15km from the health facilities by motorbikes, foot or other conventional methods using vaccine carriers or coldboxes.', target="mob_str", flip=False)
 
 
                                                                 ],style={'color':'white'}
@@ -614,7 +622,8 @@ layout = dbc.Container(
                                                    [
                                                    dbc.CardBody(
                                                                 [
-                                                                html.Div([dav.HighChart(id="wastage-by-date",constructorType='chart',options=options_5)])
+                                                                html.Div([dav.HighChart(id="wastage-by-date",constructorType='chart',options=options_5)], id='cost_tp'),
+                                                                    dbc.Tooltip("Cost of transporting vaccines is calculated by adding all costs associated with transporting vaccines such as commercial transportation costs, fuel costs per kilometer, per diems etc.", target = "cost_tp", flip=False)
                                                                 ],style={'color':'white'}
                                                    )
                                                    ],className="shadow p-3 mb-5 bg-white rounded border-light"
@@ -632,7 +641,8 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                 html.Div([dav.HighChart(id="immunization-sessions",constructorType='chart',options=options_3)])
+                                                                 html.Div([dav.HighChart(id="immunization-sessions",constructorType='chart',options=options_3)], id='cvw'),
+                                                                     dbc.Tooltip("Closed vial wastage refers to physical damage, heat or freeze excursions on a vaccine vial", target="cvw", flip=False)
 
 
                                                                  ],style={'color':'white'}
@@ -650,7 +660,8 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                 html.Div([dav.HighChart(id="transporting-cost",constructorType='chart',options=options_7)])
+                                                                 html.Div([dav.HighChart(id="transporting-cost",constructorType='chart',options=options_7)], id='fzvvm'),
+                                                                     dbc.Tooltip("Wastage by freezing and VVM change calculates the number of doses of vaccines damaged by freeze and heat excursions during transportation", target="wastge_fzvvm", flip=False)
                                                                  ],style={'color':'white'}
                                                     )
                                                     ],className="shadow p-3 mb-5 bg-white rounded border-light"
@@ -663,7 +674,8 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                 html.Div([dav.HighChart(id="total-wastage",constructorType='chart',options=options_8)])
+                                                                 html.Div([dav.HighChart(id="total-wastage",constructorType='chart',options=options_8)], id='total_wastage'),
+                                                                     dbc.Tooltip("This refers to the sum of all vaccines, in doses, that were damaged by freezing, heat or breakage", target="total_wastage", flip=False)
                                                                  ],style={'color':'white'}
                                                     )
                                                     ],className="shadow p-3 mb-5 bg-white rounded border-light"
