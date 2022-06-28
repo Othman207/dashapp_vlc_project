@@ -53,33 +53,34 @@ df3 = pd.read_excel(dataset,"Logistics Costs",usecols=['Site','Annual Transporta
 
 df1['Utilization'] = 100 * df1['Utilization']
 
+df1['Monthly reports']= df1['Monthly reports'].apply(lambda x: x.strftime("%b-%y"))
+df2['Monthly reports']= df2['Monthly reports'].apply(lambda x: x.strftime("%b-%y"))
 
-
-df1['Monthly reports'] = df1['Monthly reports'].astype('str')
-
-df1['Monthly reports'] = df1['Monthly reports'].str[:-3]
-
-for i in range(len(df1)):
-    df1['Monthly reports'][i] = datetime.datetime.strptime(df1['Monthly reports'][i], "%Y-%m")
-
-
-
-for i in range(len(df1)):
-    df1['Monthly reports'][i] = pd.to_datetime(df1['Monthly reports'][i]).strftime("%b-%y")
-
-
-
-df2['Monthly reports'] = df2['Monthly reports'].astype('str')
-
-df2['Monthly reports'] = df2['Monthly reports'].str[:-3]
-
-for i in range(len(df2)):
-    df2['Monthly reports'][i] = datetime.datetime.strptime(df2['Monthly reports'][i], "%Y-%m")
-
-
-
-for i in range(len(df2)):
-    df2['Monthly reports'][i] = pd.to_datetime(df2['Monthly reports'][i]).strftime("%b-%y")
+# df1['Monthly reports'] = df1['Monthly reports'].astype('str')
+#
+# df1['Monthly reports'] = df1['Monthly reports'].str[:-3]
+#
+# for i in range(len(df1)):
+#     df1['Monthly reports'][i] = datetime.datetime.strptime(df1['Monthly reports'][i], "%Y-%m")
+#
+#
+#
+# for i in range(len(df1)):
+#     df1['Monthly reports'][i] = pd.to_datetime(df1['Monthly reports'][i]).strftime("%b-%y")
+#
+#
+#
+# df2['Monthly reports'] = df2['Monthly reports'].astype('str')
+#
+# df2['Monthly reports'] = df2['Monthly reports'].str[:-3]
+#
+# for i in range(len(df2)):
+#     df2['Monthly reports'][i] = datetime.datetime.strptime(df2['Monthly reports'][i], "%Y-%m")
+#
+#
+#
+# for i in range(len(df2)):
+#     df2['Monthly reports'][i] = pd.to_datetime(df2['Monthly reports'][i]).strftime("%b-%y")
 
 
 
