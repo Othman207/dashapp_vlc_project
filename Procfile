@@ -1,1 +1,2 @@
-web: gunicorn index:server --bind :$PORT
+web: gunicorn index:server --preload
+worker: python worker.py

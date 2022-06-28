@@ -3,6 +3,9 @@ from dash import html
 from dash.dependencies import Input, Output
 import os
 
+from rq import Queue
+from worker import conn
+
 # Connect to main app.py file
 from app import app
 #from app import server
