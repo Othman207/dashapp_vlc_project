@@ -530,9 +530,9 @@ layout = dbc.Container(
                                             [
                                             html.Div(id="datawrapper-chart-uxDWb"),
                                             #dcc.Tooltip(text="Map showing "),
-                                            html.H6(['Map Showing Health Facilities in Lena District'],style={'text-align':'center'}),
+                                            html.H6(['Map Showing St. Louis Region, Senegal'],style={'text-align':'center'}),
                                             html.Iframe(id='iframe',
-                                            src="https://datawrapper.dwcdn.net/uxDWb/1/",
+                                            src="https://www.openstreetmap.org/export/embed.html?bbox=-16.546096801757816%2C15.813726089657619%2C-16.257705688476566%2C16.037234640848297&amp;layer=mapnik",
                                             style={"height": "500px", "width": "90%"},
                                             ),
                                             dbc.Tooltip("Description of map showing all the available locations in Senegal", target="iframe"),
