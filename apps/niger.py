@@ -147,6 +147,7 @@ total_freezing_by_vacc.sort_values(by='Total Freezing',inplace=True)
 
 avg_volume = avg_volume_district['Total Volume (L)'].mean()
 avg_util = avg_volume_district['Utilization with 3990L Capacity'].mean()
+avg_doses = avg_volume_district['TOTAL DOSES'].mean()
 
 district_names = []
 volume_data = []
@@ -529,10 +530,16 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                  html.H6(['Average Volume of Vaccines Transported per Month to Districts by Dosso Regional Store Cold Truck'], id='avgvol',
-                                                                          style={'text-align':'center'}),
-                                                                    dbc.Tooltip("The storage capacity of the conventional truck was used to calculate the average volume it takes to deliver vaccines on a monthly basis", target="avgvol"),
-                                                                  html.H2(["{:.2f}".format(avg_volume)],style={'text-align':'center','font-size':'5rem'})
+                                                                     html.H6([
+                                                                                 'Average Doses of Vaccines Transported per Month to Districts by Dosso Regional Store Cold Truck'],
+                                                                             id='avgvol',
+                                                                             style={'text-align': 'center'}),
+                                                                     dbc.Tooltip(
+                                                                         "This is the average number of doses transported to all the 8 districts of Dosso Region per month",
+                                                                         target="avgvol"),
+                                                                     html.H2(["{:,.0f}".format(avg_doses)],
+                                                                             style={'text-align': 'center',
+                                                                                    'font-size':  '5rem'})
                                                                  ]
                                                     )
                                                     ],className="shadow p-3 mb-5 bg-white rounded border-light"
