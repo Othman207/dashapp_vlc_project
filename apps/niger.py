@@ -549,7 +549,7 @@ layout = dbc.Container(
                                                     dbc.CardBody(
                                                                  [
                                                                  html.Div([dav.HighChart(id="avg-vol",constructorType='chart',options=options_1)],id='vol_received'),
-                                                                 dbc.Tooltip("This is the total volume of vaccines received by each district in 2021", target="vol_received")
+                                                                 dbc.Tooltip("This is the total volume of vaccines received by each district from Jan-Dec 2021", target="vol_received")
                                                                  ],style={'color':'white'}
                                                     )
                                                     ],className="shadow p-3 mb-5 bg-white rounded border-light"
