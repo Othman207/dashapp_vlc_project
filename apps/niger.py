@@ -45,6 +45,23 @@ df2.rename(columns={'VPO_Unopened vial wastage_VVM status':'OPV_Unopened vial wa
                         'VPH_Unopened vial wastage_Freezing':'HPV_Unopened vial wastage_Freezing'},
 inplace=True)
 
+df4 = df1[['BCG_Quantity (doses)_received', 'VPO_Quantity (doses)_received',
+       'VPI_Quantity (doses)_received', 'Penta_Quantity (doses)_received',
+       'Pneumo_Quantity (doses)_received', 'Rota_Quantity (doses)_received',
+       'VAR_Quantity (doses)_received', 'VAA_Quantity (doses)_received',
+       'MenA_Quantity (doses)_received', 'Td_Quantity (doses)_received',]]
+
+df4.rename(columns={'BCG_Quantity (doses)_received':'BCG', 'VPO_Quantity (doses)_received':'OPV',
+       'VPI_Quantity (doses)_received':'IPV', 'Penta_Quantity (doses)_received':'Penta',
+       'Pneumo_Quantity (doses)_received':'PCV', 'Rota_Quantity (doses)_received':'Rota',
+       'VAR_Quantity (doses)_received':'MV', 'VAA_Quantity (doses)_received':'YF',
+       'MenA_Quantity (doses)_received':'MenA', 'Td_Quantity (doses)_received':'Td'},
+inplace=True)
+df4['Hep-B'] = 0
+df4['HPV'] = 0
+
+df5 = df4[['BCG', 'OPV', 'IPV', 'Penta', 'PCV', 'Rota', 'MV', 'YF', 'MenA', 'Td', 'Hep-B', 'HPV']].sum()
+
 #df3 = pd.read_excel("Attachment_1642767473.xlsx","Logistics Costs",usecols=['Site','Annual Transportation Cost','Transport CPD'])
 
 
@@ -82,7 +99,7 @@ df2['Monthly reports']= df2['Monthly reports'].apply(lambda x: x.strftime("%b-%y
 #     df2['Monthly reports'][i] = pd.to_datetime(df2['Monthly reports'][i]).strftime("%b-%y")
 
 
-
+# Sum up all values of df1
 total_volume = df1.groupby(by=['Districts']).sum()
 
 total_volume['lat'] = total_volume.index.map(district_lat)
@@ -107,40 +124,92 @@ freezing_cols = [col for col in df2.columns if 'wastage_Freezing' in col]
 
 wastage_cols = [col for col in df2.columns if '_Unopened vial wastage' in col]
 
+received_cols = [col for col in df2.columns if '_Quantity (doses)_received' in col]
+
+# Select only columns with vvm, freeze and wastage change from total_vacc_session_date
 total_vvm_change = total_vacc_sessions_date[vvm_cols]
 
 total_freezing = total_vacc_sessions_date[freezing_cols]
 
 total_wastage = total_vacc_sessions_date[wastage_cols]
 
+total_received = total_vacc_sessions_date[received_cols]
+# transpose
 total_vvm_change_by_vacc = total_vvm_change.T
-
+# Remove string with Unopened vial text to leave only the vaccine name
 total_vvm_change_by_vacc.index = total_vvm_change_by_vacc.index.str.replace('_Unopened vial wastage_VVM status','')
-
+# Sum total wastage by date
 total_wastage_by_date = total_wastage.sum(axis=1).to_frame().rename(columns={0:'Total Wastage'})
 
+total_received_by_date = total_received.sum(axis=1).to_frame().rename(columns={0:'Total Received'})
 
+#Combine total wastage with total received doses
+df_received = total_received_by_date.combine_first(total_wastage_by_date)
+
+# Calculate percentage of wastage
+df_received['Percent Wasted'] = df_received['Total Wastage']/df_received['Total Received']*100
+
+df_received['Percent Wasted'] = df_received['Percent Wasted'].round(decimals=2)
+
+
+# Transpose
 total_freezing_by_vacc = total_freezing.T
 
 total_freezing_by_vacc.index = total_freezing_by_vacc.index.str.replace('_Unopened vial wastage_Freezing','')
 
-
+# sum vvm change by date and make a single column
 total_vvm_change = total_vvm_change.sum(axis=1).to_frame().rename(columns={0:'Total VVM Change'})
 
-
+# sum freeze change by date and make a single column
 total_freezing = total_freezing.sum(axis=1).to_frame().rename(columns={0:'Total Freezing'})
 
-
+# merge vvm, freeze into single df
 df_wastage_by_reason = pd.concat([total_vvm_change,total_freezing],axis=1)
-
+# total vvm change by vaccine into a single column
 total_vvm_change_by_vacc = total_vvm_change_by_vacc.sum(axis=1).to_frame().rename(columns={0:'Total VVM Change'})
 
+# get total doses by vaccine to concatenate with total_vvm_change_by_vacc and calculate percentage of VVM wastage by vacc
+df5.name = 'Distributed'
+df7 = pd.DataFrame([df5])
+df7 = df7.transpose()
 
+
+# Wastage by reason to insert % of VVM and Freeze by month
+df_wastage_by_reason = df_wastage_by_reason.combine_first(df_received)
+
+## for VVM wastage by reason
+df_wastage_by_reason['Percent VVM Change'] = df_wastage_by_reason['Total VVM Change']/df_wastage_by_reason['Total Received']*100
+
+df_wastage_by_reason['Percent VVM Change'] = df_wastage_by_reason['Percent VVM Change'].round(decimals=2)
+
+## for freezing wastage by reason
+df_wastage_by_reason['Percent Freeze Change'] = df_wastage_by_reason['Total Freezing']/df_wastage_by_reason['Total Received']*100
+
+df_wastage_by_reason['Percent Freeze Change'] = df_wastage_by_reason['Percent Freeze Change'].round(decimals=2)
+
+
+total_vvm_change_by_vacc = total_vvm_change_by_vacc.combine_first(df7)
+
+# Calculate percentage of wastage
+total_vvm_change_by_vacc['VVM Percent Damage'] = total_vvm_change_by_vacc['Total VVM Change']/total_vvm_change_by_vacc['Distributed']*100
+
+total_vvm_change_by_vacc['VVM Percent Damage'] = total_vvm_change_by_vacc['VVM Percent Damage'].round(decimals=2)
+
+# sort in ascending order
 total_vvm_change_by_vacc.sort_values(by='Total VVM Change',inplace=True)
+# total freeze change by vaccine into a single column
 
 total_freezing_by_vacc = total_freezing_by_vacc.sum(axis=1).to_frame().rename(columns={0:'Total Freezing'})
 
+# get total doses by vaccine to concatenate with total_vvm_change_by_vacc and calculate percentage of VVM wastage by vacc
+total_freezing_by_vacc = total_freezing_by_vacc.combine_first(df7)
 
+# Calculate percentage of wastage
+total_freezing_by_vacc['Freezing Percent Damage'] = total_freezing_by_vacc['Total Freezing']/total_freezing_by_vacc['Distributed']*100
+
+total_freezing_by_vacc['Freezing Percent Damage'] = total_freezing_by_vacc['Freezing Percent Damage'].round(decimals=2)
+
+# sort in ascending order
 total_freezing_by_vacc.sort_values(by='Total Freezing',inplace=True)
 
 
@@ -167,14 +236,23 @@ for district in total_volume.index:
 for district in df1['Districts'].unique():
     district_names.append({'label':district,'value':district})
 
+# for vaccine in total_vvm_change_by_vacc.index:
+#     vvm_vacc.append([vaccine,total_vvm_change_by_vacc['Total VVM Change'][vaccine]])
+#
+# for vaccine in total_freezing_by_vacc.index:
+#     freezing_vacc.append([vaccine,total_freezing_by_vacc['Total Freezing'][vaccine]])
+
 for vaccine in total_vvm_change_by_vacc.index:
-    vvm_vacc.append([vaccine,total_vvm_change_by_vacc['Total VVM Change'][vaccine]])
+    vvm_vacc.append([vaccine,total_vvm_change_by_vacc['VVM Percent Damage'][vaccine]])
 
 for vaccine in total_freezing_by_vacc.index:
-    freezing_vacc.append([vaccine,total_freezing_by_vacc['Total Freezing'][vaccine]])
+    freezing_vacc.append([vaccine,total_freezing_by_vacc['Freezing Percent Damage'][vaccine]])
 
-for date in total_wastage_by_date.index:
-    wastage_data.append([date,total_wastage_by_date['Total Wastage'][date]])
+for date in df_received.index:
+    wastage_data.append([date,df_received['Percent Wasted'][date]])
+
+# for date in total_wastage_by_date.index:
+#     wastage_data.append([date,total_wastage_by_date['Total Wastage'][date]])
 
 
 
@@ -337,15 +415,18 @@ options_7 = {
         'type':'area'
     },
     'title': {
-        'text':'Wastage by Freezing & VVM Changes Jan-Dec 2021'
+        'text':'Percentage of Vaccine Doses Wasted by Freezing & VVM Changes in Transportation Jan-Dec 2021'
     },
     'xAxis': {
         'categories':df_wastage_by_reason.index
     },
     'yAxis': {
         'title':{
-                 'text':'Doses'
-             }
+                 'text':''
+             },
+    'labels': {
+            'format': '{value}%',
+        }
     },
     'credits': {
         'enabled': False
@@ -354,12 +435,12 @@ options_7 = {
         'shared': True
     },
     'series':[{
-        'name': 'Total VVM Change',
-        'data': df_wastage_by_reason['Total VVM Change'].tolist()
+        'name': '% VVM Change',
+        'data': df_wastage_by_reason['Percent VVM Change'].tolist()
     },
     {
-    'name': 'Total Freezing',
-    'data': df_wastage_by_reason['Total Freezing'].tolist()
+    'name': '% Freezing',
+    'data': df_wastage_by_reason['Percent Freeze Change'].tolist()
     }]
 }
 
@@ -368,7 +449,7 @@ options_3 = {
         'type':'column'
     },
     'title': {
-        'text':'Closed Vial Wastage by Vaccine Jan-Dec 2021'
+        'text':'Proportion of Doses Transported Damaged by Heat and Freezing Exposures, Jan-Dec 2021'
     },
     'xAxis': {
         'type': 'category',
@@ -378,8 +459,11 @@ options_3 = {
     },
     'yAxis': {
             'title':{
-                'text':'Number of Doses Wasted'
-            }
+                'text':'Percent of Doses Damaged'
+            },
+        'labels': {
+            'format': '{value}%',
+        }
         },
     'credits': {
         'enabled': False
@@ -478,14 +562,17 @@ options_8 = {
         'type': 'bar'
     },
     'title': {
-        'text': 'Total Doses of Closed Vial Wastage of Vaccines (Freezing & VVM Change) in Transportation Jan-Dec 2021'
+        'text': 'Proportion of Doses Damaged in Transportation Jan-Dec 2021'
     },
     'xAxis': {
         'type': 'category'
     },
     'yAxis': {
         'title': {
-        'text': 'Doses'
+        'text': 'Percent'
+        },
+    'labels': {
+            'format': '{value}%',
         }
     },
     'legend': {
@@ -650,7 +737,7 @@ layout = dbc.Container(
                                                     dbc.CardBody(
                                                                  [
                                                                  html.Div([dav.HighChart(id="immunization-sessions",constructorType='chart',options=options_3)], id='cvw'),
-                                                                     dbc.Tooltip("Closed vial wastage refers to physical damage, heat or freeze excursions on a vaccine vial", target="cvw", flip=False)
+                                                                     dbc.Tooltip("This chart shows the percentage of doses transported that were damaged by heat (VVM) or freezing temperature exposures.", target="cvw", flip=False)
 
 
                                                                  ],style={'color':'white'}
@@ -669,7 +756,7 @@ layout = dbc.Container(
                                                     dbc.CardBody(
                                                                  [
                                                                  html.Div([dav.HighChart(id="transporting-cost",constructorType='chart',options=options_7)], id='fzvvm'),
-                                                                     dbc.Tooltip("Wastage by freezing and VVM change calculates the number of doses of vaccines damaged by freeze and heat excursions during transportation", target="wastge_fzvvm", flip=False)
+                                                                     dbc.Tooltip("Chart showing the proportion of vaccine doses damaged by freeze and heat excursions during transportation", target="fzvvm", flip=False)
                                                                  ],style={'color':'white'}
                                                     )
                                                     ],className="shadow p-3 mb-5 bg-white rounded border-light"
@@ -683,7 +770,7 @@ layout = dbc.Container(
                                                     dbc.CardBody(
                                                                  [
                                                                  html.Div([dav.HighChart(id="total-wastage",constructorType='chart',options=options_8)], id='total_wastage'),
-                                                                     dbc.Tooltip("This refers to the sum of all vaccines, in doses, that were damaged by freezing, heat or breakage", target="total_wastage", flip=False)
+                                                                     dbc.Tooltip("Chart showing proportion of transported doses damaged by heat and freezing exposures combined by month, that were damaged by freezing, heat or breakage", target="total_wastage", flip=False)
                                                                  ],style={'color':'white'}
                                                     )
                                                     ],className="shadow p-3 mb-5 bg-white rounded border-light"
