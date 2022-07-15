@@ -23,6 +23,8 @@ app.title = "Vaccine Land Cruiser Evaluation Dashboard"
 auth = dash_auth.BasicAuth(
      app,
     {'user1':'volta1734',
-    'user2':'dosso1823'}
+    'user2':'dosso1823',
+     'inga1':'vlc123',
+     'yuta1':'vlc243'}
 )
 
