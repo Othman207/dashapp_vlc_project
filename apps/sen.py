@@ -103,7 +103,7 @@ dfpt.reset_index(inplace=True)
 dfpt2 = dfpt.iloc[pd.to_datetime(dfpt['Monthly reports'], format='%b-%y').argsort()]
 total_trips_date = dfpt2.groupby(by=['Monthly reports'],sort=False).sum()
 
-total_vacc_sessions = df2.groupby(by=['Health Center']).sum()
+total_vacc_sessions = df2.groupby(by=['District']).sum()
 
 total_vacc_sessions_date = df2.groupby(by=['Monthly reports'],sort=False).sum()
 
@@ -311,13 +311,13 @@ options_6 = {
         'data':total_vacc_sessions['No. of vaccination sessions__fixed'].tolist()
     },
     {
-       'type':'scatter',
+       'type':'column',
        'name':'outreach',
        'yAxis': 1,
        'data':total_vacc_sessions['No. of vaccination sessions__outreach'].tolist()
     },
     {
-       'type':'scatter',
+       'type':'column',
        'name':'mobile',
        'yAxis': 1,
        'data':total_vacc_sessions['No. of vaccination sessions__mobile'].tolist()
