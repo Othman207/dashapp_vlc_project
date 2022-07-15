@@ -525,12 +525,12 @@ layout = dbc.Container(
                                             [
                                             html.Div(id="datawrapper-chart-uxDWb"),
                                             #dcc.Tooltip(text="Map showing "),
-                                            html.H6(['Map Showing Health Facilities in Lena District'],style={'text-align':'center'}),
+                                            html.H6(['Map Showing the Last 100 Positions of the Vaccine Land Cruiser in Lena District'],style={'text-align':'center'}),
                                             html.Iframe(id='iframe',
-                                            src="https://datawrapper.dwcdn.net/uxDWb/1/",
-                                            style={"height": "500px", "width": "90%"},
+                                            src="//www.arcgis.com/apps/Embed/index.html?webmap=61da8655ba004effa448c1a33890d3a4&extent=-4.8909,9.3447,1.1735,13.0031&zoom=true&previewImage=false&scale=true&search=true&searchextent=true&legend=true&disable_scroll=true&theme=light",
+                                            style={"height": "500px", "width": "100%"},
                                             ),
-                                            dbc.Tooltip("Description of map showing all the available locations in Senegal", target="iframe"),
+                                            dbc.Tooltip("Locations traveled by the Vaccine Land Cruiser in Burkina Faso", target="iframe"),
                                             ],md=4
                                     ),
 

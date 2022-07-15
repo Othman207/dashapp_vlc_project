@@ -529,13 +529,12 @@ layout = dbc.Container(
                                     dbc.Col(
                                             [
                                             html.Div(id="datawrapper-chart-uxDWb"),
-                                            #dcc.Tooltip(text="Map showing "),
-                                            html.H6(['Map Showing St. Louis Region, Senegal'],style={'text-align':'center'}),
+                                            html.H6(['Map Showing the Last 100 Positions of the Vaccine Land Cruiser in St. Louis Region, Senegal'],style={'text-align':'center'}),
                                             html.Iframe(id='iframe',
-                                            src="https://www.openstreetmap.org/export/embed.html?bbox=-16.546096801757816%2C15.813726089657619%2C-16.257705688476566%2C16.037234640848297&amp;layer=mapnik",
-                                            style={"height": "500px", "width": "90%"},
+                                            src="//www.arcgis.com/apps/Embed/index.html?webmap=4d86714227ca4eb092064fef1797efe7&extent=-16.841,15.8343,-15.3249,16.6544&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light",
+                                            style={"height": "500px", "width": "100%"},
                                             ),
-                                            dbc.Tooltip("Description of map showing all the available locations in Senegal", target="iframe"),
+                                            dbc.Tooltip("Locations traveled by the Vaccine Land Cruiser in St. Louise Region of Senegal", target="iframe"),
                                             ],md=4
                                     ),
 
