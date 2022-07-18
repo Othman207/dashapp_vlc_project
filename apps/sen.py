@@ -12,9 +12,6 @@ import dash_auth
 from app import app
 
 
-district_lat = {'Bah':11.3821629,'Tibiri':13.111496164791635, 'Loga':13.630843214618249, 'Gaya':11.885301486623014, 'Falmey':12.59218710888745,'Dogondoutchi':13.644155442065163,'Dioundiou':12.618310826888786, 'Dosso':13.050546691115104}
-
-district_lng = {'Bah':-5.2855289,'Tibiri':4.01065349002892, 'Loga':3.5003297228187784, 'Gaya':3.454853618837945, 'Falmey':2.8502113335337578,'Dogondoutchi':4.033773700350723,'Dioundiou':3.543305405673443, 'Dosso':3.208135897880922}
 
 dataset2 = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/pete.xlsx')
 
@@ -23,6 +20,8 @@ df1 = pd.read_excel(dataset2,"Uti2")
 df2 = pd.read_excel(dataset2,"DVDMT")
 
 df3 = pd.read_excel(dataset2,"Logistics Costs",usecols=['Site','Annual Transportation Cost','Transport CPD'])
+df8 = pd.read_excel(dataset2,"Logistics Costs",usecols=['District','Site','Annual Transportation Cost','Transport CPD'])
+df9 = df8.groupby(by=['District']).mean().reset_index()
 #df1 = pd.read_excel(dataset,"Uti2")
 
 #df2 = pd.read_excel(dataset,"DVDMT")
@@ -91,8 +90,8 @@ df2['Monthly reports']= df2['Monthly reports'].apply(lambda x: x.strftime("%b-%y
 
 total_volume = df1.groupby(by=['Districts']).sum()
 
-total_volume['lat'] = total_volume.index.map(district_lat)
-total_volume['lon'] = total_volume.index.map(district_lng)
+# total_volume['lat'] = total_volume.index.map(district_lat)
+# total_volume['lon'] = total_volume.index.map(district_lng)
 
 avg_volume_district = df1.groupby(by=['Districts']).mean()
 
@@ -171,9 +170,9 @@ freezing_vacc = []
 map_data2 = []
 
 
-for district in total_volume.index:
-    volume_data.append([district,total_volume['Total Volume (L)'][district]])
-    map_data2.append({'name':district,'lat':total_volume['lat'][district],'lon':total_volume['lon'][district],'volume':total_volume['Total Volume (L)'][district]})
+# for district in total_volume.index:
+#     volume_data.append([district,total_volume['Total Volume (L)'][district]])
+#     map_data2.append({'name':district,'lat':total_volume['lat'][district],'lon':total_volume['lon'][district],'volume':total_volume['Total Volume (L)'][district]})
 
 for district in df1['Districts'].unique():
     district_names.append({'label':district,'value':district})
@@ -430,7 +429,7 @@ options_5 = {
         'title':{
             'text':'Districts'
         },
-        'categories':df3['Site'].tolist()
+        'categories':df9['District'].tolist()
     },
     'yAxis': [{
         'title':{
@@ -468,17 +467,17 @@ options_5 = {
     {
         'type':'column',
         'name':'Annual Cost of Transporting Vaccines',
-        'data':df3['Annual Transportation Cost'].tolist(),
+        'data':df9['Annual Transportation Cost'].tolist(),
         'tooltip': {
             'valueDecimals': 2,
             'valuePrefix': '$'
         }
     },
     {
-       'type':'scatter',
+       'type':'line',
        'name':'Transport Cost per Dose',
        'yAxis': 1,
-       'data':df3['Transport CPD'].tolist(),
+       'data':df9['Transport CPD'].tolist(),
        'tooltip': {
            'valueDecimals': 2,
            'valuePrefix': '$'
@@ -530,8 +529,7 @@ layout = dbc.Container(
                                             [
                                             html.Div(id="datawrapper-chart-uxDWb"),
                                             html.H6(['Map Showing the Last 100 Positions of the Vaccine Land Cruiser in St. Louis Region, Senegal'],style={'text-align':'center'}),
-                                            html.Iframe(id='iframe',
-                                            src="//www.arcgis.com/apps/Embed/index.html?webmap=4d86714227ca4eb092064fef1797efe7&extent=-16.841,15.8343,-15.3249,16.6544&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light",
+                                            html.Iframe(id='iframe',src="//www.arcgis.com/apps/Embed/index.html?webmap=4d86714227ca4eb092064fef1797efe7&extent=-16.841,15.8343,-15.3249,16.6544&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light",
                                             style={"height": "500px", "width": "100%"},
                                             ),
                                             dbc.Tooltip("Locations traveled by the Vaccine Land Cruiser in St. Louise Region of Senegal", target="iframe"),

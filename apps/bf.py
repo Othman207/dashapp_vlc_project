@@ -12,9 +12,9 @@ import dash_auth
 from app import app
 
 
-district_lat = {'Bah':11.3821629,'Tibiri':13.111496164791635, 'Loga':13.630843214618249, 'Gaya':11.885301486623014, 'Falmey':12.59218710888745,'Dogondoutchi':13.644155442065163,'Dioundiou':12.618310826888786, 'Dosso':13.050546691115104}
-
-district_lng = {'Bah':-5.2855289,'Tibiri':4.01065349002892, 'Loga':3.5003297228187784, 'Gaya':3.454853618837945, 'Falmey':2.8502113335337578,'Dogondoutchi':4.033773700350723,'Dioundiou':3.543305405673443, 'Dosso':3.208135897880922}
+# district_lat = {'Bah':11.3821629,'Tibiri':13.111496164791635, 'Loga':13.630843214618249, 'Gaya':11.885301486623014, 'Falmey':12.59218710888745,'Dogondoutchi':13.644155442065163,'Dioundiou':12.618310826888786, 'Dosso':13.050546691115104}
+#
+# district_lng = {'Bah':-5.2855289,'Tibiri':4.01065349002892, 'Loga':3.5003297228187784, 'Gaya':3.454853618837945, 'Falmey':2.8502113335337578,'Dogondoutchi':4.033773700350723,'Dioundiou':3.543305405673443, 'Dosso':3.208135897880922}
 
 dataset = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/BFBaseline.xlsx')
 
@@ -86,8 +86,8 @@ df2['Monthly reports']= df2['Monthly reports'].apply(lambda x: x.strftime("%b-%y
 
 total_volume = df1.groupby(by=['Districts']).sum()
 
-total_volume['lat'] = total_volume.index.map(district_lat)
-total_volume['lon'] = total_volume.index.map(district_lng)
+# total_volume['lat'] = total_volume.index.map(district_lat)
+# total_volume['lon'] = total_volume.index.map(district_lng)
 
 avg_volume_district = df1.groupby(by=['Districts']).mean()
 
@@ -166,9 +166,9 @@ freezing_vacc = []
 map_data2 = []
 
 
-for district in total_volume.index:
-    volume_data.append([district,total_volume['Total Volume (L)'][district]])
-    map_data2.append({'name':district,'lat':total_volume['lat'][district],'lon':total_volume['lon'][district],'volume':total_volume['Total Volume (L)'][district]})
+# for district in total_volume.index:
+#     volume_data.append([district,total_volume['Total Volume (L)'][district]])
+#     map_data2.append({'name':district,'lat':total_volume['lat'][district],'lon':total_volume['lon'][district],'volume':total_volume['Total Volume (L)'][district]})
 
 for district in df1['Districts'].unique():
     district_names.append({'label':district,'value':district})
@@ -526,8 +526,7 @@ layout = dbc.Container(
                                             html.Div(id="datawrapper-chart-uxDWb"),
                                             #dcc.Tooltip(text="Map showing "),
                                             html.H6(['Map Showing the Last 100 Positions of the Vaccine Land Cruiser in Lena District'],style={'text-align':'center'}),
-                                            html.Iframe(id='iframe',
-                                            src="//www.arcgis.com/apps/Embed/index.html?webmap=61da8655ba004effa448c1a33890d3a4&extent=-4.8909,9.3447,1.1735,13.0031&zoom=true&previewImage=false&scale=true&search=true&searchextent=true&legend=true&disable_scroll=true&theme=light",
+                                            html.Iframe(id='iframe',src="//www.arcgis.com/apps/Embed/index.html?webmap=61da8655ba004effa448c1a33890d3a4&extent=-4.8909,9.3447,1.1735,13.0031&zoom=true&previewImage=false&scale=true&search=true&searchextent=true&legend=true&disable_scroll=true&theme=light",
                                             style={"height": "500px", "width": "100%"},
                                             ),
                                             dbc.Tooltip("Locations traveled by the Vaccine Land Cruiser in Burkina Faso", target="iframe"),
