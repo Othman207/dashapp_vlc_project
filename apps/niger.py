@@ -593,7 +593,8 @@ options_8 = {
 layout = dbc.Container(
                            [
                            html.Div([
-                           html.H1(['Dosso Region, Niger Republique Baseline Analysis'],style={'text-align':'center','font-size':'3rem'}),
+                           html.H1(['Dosso Region, Niger Republique'],style={'text-align':'center','font-size':'3rem'}),
+                           html.H3(['Vaccine Land Cruiser Evaluation'],style={'text-align':'center','font-size':'2rem', 'color':'blue'}),
                            html.Hr(style={'background-color':'rgba(61,61,61,0.5)'}),
                            ],style={'margin-top':'8px'}),
 

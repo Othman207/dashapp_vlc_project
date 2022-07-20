@@ -14,6 +14,12 @@ from app import app
 
 
 dataset2 = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/pete.xlsx')
+nova2 = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/intamb.csv'))
+
+#nova2 = pd.read_csv(dataset3)
+internal = nova2[['Date Time', 'Internal']].dropna()
+ambient = nova2[['Date Time', 'Ambient']].dropna()
+external = nova2[['Date Time', 'External']].dropna()
 
 df1 = pd.read_excel(dataset2,"Uti2")
 
@@ -22,69 +28,11 @@ df2 = pd.read_excel(dataset2,"DVDMT")
 df3 = pd.read_excel(dataset2,"Logistics Costs",usecols=['Site','Annual Transportation Cost','Transport CPD'])
 df8 = pd.read_excel(dataset2,"Logistics Costs",usecols=['District','Site','Annual Transportation Cost','Transport CPD'])
 df9 = df8.groupby(by=['District']).mean().reset_index()
-#df1 = pd.read_excel(dataset,"Uti2")
-
-#df2 = pd.read_excel(dataset,"DVDMT")
-
-#df3 = pd.read_excel(dataset,"Logistics Costs",usecols=['Site','Annual Transportation Cost','Transport CPD'])
-
-
-#df2.replace('-',np.nan,inplace=True)
-# dataset = pd.read_excel("pete.xlsx")
-#
-# df1 = pd.read_excel("pete.xlsx","Uti2")
-#
-# df2 = pd.read_excel("pete.xlsx","DVDMT")
-
-# df2.rename(columns={'VPO_Unopened vial wastage_VVM status':'OPV_Unopened vial wastage_VVM status',
-#                         'VPI_Unopened vial wastage_VVM status':'IPV_Unopened vial wastage_VVM status',
-#                         'Pneumo_Unopened vial wastage_VVM status':'PCV_Unopened vial wastage_VVM status',
-#                         'VAR_Unopened vial wastage_VVM status':'MV_Unopened vial wastage_VVM status',
-#                         'VAA_Unopened vial wastage_VVM status':'YF_Unopened vial wastage_VVM status',
-#                         'VPH_Unopened vial wastage_VVM status':'HPV_Unopened vial wastage_VVM status',
-#                         'VPO_Unopened vial wastage_Freezing':'OPV_Unopened vial wastage_Freezing',
-#                         'VPI_Unopened vial wastage_Freezing':'IPV_Unopened vial wastage_Freezing',
-#                         'Pneumo_Unopened vial wastage_Freezing':'PCV_Unopened vial wastage_Freezing',
-#                         'VAR_Unopened vial wastage_Freezing':'MV_Unopened vial wastage_Freezing',
-#                         'VAA_Unopened vial wastage_Freezing':'YF_Unopened vial wastage_Freezing',
-#                         'VPH_Unopened vial wastage_Freezing':'HPV_Unopened vial wastage_Freezing'},
-# inplace=True)
-
-#df3 = pd.read_excel("pete.xlsx","Logistics Costs",usecols=['Site','Annual Transportation Cost','Transport CPD'])
-
-
-#df2.replace('-',np.nan,inplace=True)
 
 df1['Utilization'] = 100 * df1['Utilization']
 
 df1['Monthly reports']= df1['Monthly reports'].apply(lambda x: x.strftime("%b-%y"))
 df2['Monthly reports']= df2['Monthly reports'].apply(lambda x: x.strftime("%b-%y"))
-
-# df1['Monthly reports'] = df1['Monthly reports'].astype('str')
-#
-# df1['Monthly reports'] = df1['Monthly reports'].str[:-3]
-#
-# for i in range(len(df1)):
-#     df1['Monthly reports'][i] = datetime.datetime.strptime(df1['Monthly reports'][i], "%Y-%m")
-#
-#
-#
-# for i in range(len(df1)):
-#     df1['Monthly reports'][i] = pd.to_datetime(df1['Monthly reports'][i]).strftime("%b-%y")
-#
-#
-#
-# df2['Monthly reports'] = df2['Monthly reports'].astype('str')
-#
-# df2['Monthly reports'] = df2['Monthly reports'].str[:-3]
-#
-# for i in range(len(df2)):
-#     df2['Monthly reports'][i] = datetime.datetime.strptime(df2['Monthly reports'][i], "%Y-%m")
-#
-#
-#
-# for i in range(len(df2)):
-#     df2['Monthly reports'][i] = pd.to_datetime(df2['Monthly reports'][i]).strftime("%b-%y")
 
 
 
@@ -840,12 +788,54 @@ options_9 = {
 
 }
 
+options_10 = {
+    'chart': {
+        'type': 'line'
+    },
+    'title': {
+        'text': 'Temperature Records of the Vaccine Land Cruiser in Senegal'
+    },
+    'subtitle': {
+        'text': 'Source: Parsyl Temperature Recording Devices'
+    },
+    'credits': {
+        'enabled': False
+    },
+    'xAxis': {
+        'categories': nova2['Date Time'].tolist(),
+        'format': '{value:%m-%d %H:%M}',
+    },
+    'yAxis': {
+        'title': {
+            'text': 'Temperature (°C)'
+        }
+    },
+    'plotOptions': {
+        'line': {
+            'dataLabels': {
+                'enabled': True
+            },
+            'enableMouseTracking': True
+        }
+    },
+    'series': [{
+        'name': 'Internal',
+        'data': internal['Internal'].tolist()
+    }, {
+        'name': 'Ambient',
+        'data': ambient['Ambient'].tolist()
+    }, {
+        'name': 'External',
+        'data': external['External'].tolist()
+    }]
+}
 
 
 layout = dbc.Container(
                            [
                            html.Div([
-                           html.H2(['Pete & Podor Districts of Saint Louis Region, Senegal Baseline Analysis'],style={'text-align':'center','font-size':'3rem'}),
+                           html.H2(['Pete & Podor Districts of Saint Louis Region, Senegal'],style={'text-align':'center','font-size':'3rem'}),
+                           html.H3(['Vaccine Land Cruiser Evaluation'],style={'text-align':'center','font-size':'2rem', 'color':'blue'}),
                            html.Hr(style={'background-color':'rgba(61,61,61,0.5)'}),
                            ],style={'margin-top':'8px'}),
 
@@ -918,8 +908,8 @@ layout = dbc.Container(
                                                     dbc.CardBody(
                                                                  [
 
-                                                                 html.Div([dav.HighChart(constructorType='chart',options=options_2)], id='trips-done'),
-                                                                     dbc.Tooltip("This is the number of trips done to fulfil the supply period demand based on the transport storage capacity and the quantity of vaccines", target="trips-done")
+                                                                 html.Div([dav.HighChart(constructorType='chart',options=options_10)], id='temprecs'),
+                                                                     #dbc.Tooltip("This is the number of trips done to fulfil the supply period demand based on the transport storage capacity and the quantity of vaccines", target="trips-done")
 
 
                                                                 ],style={'color':'white'}
@@ -990,8 +980,9 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                 html.Div([dav.HighChart(id="immunization-sessions",constructorType='chart',options=options_3)],id='cvw'),
-                                                                     dbc.Tooltip("Closed vial wastage refers to physical damage, heat or freeze excursions on a vaccine vial", target="cvw", flip=False)
+                                                                 html.Div([dav.HighChart(id="tripss",constructorType='chart',options=options_2)],id='trips-done'),
+                                                                     dbc.Tooltip("This is the number of trips done to fulfil the supply period demand based on the transport storage capacity and the quantity of vaccines", target="trips-done")
+                                                                     #dbc.Tooltip("Closed vial wastage refers to physical damage, heat or freeze excursions on a vaccine vial", target="cvw", flip=False)
 
 
                                                                  ],style={'color':'white'}

@@ -21,8 +21,6 @@ app = dash.Dash(__name__,suppress_callback_exceptions=True,external_scripts=scri
     ])
 app.title = "Vaccine Land Cruiser Evaluation Dashboard"
 
-# server = app.server
-# server.secret_key = os.environ.get('secret_key', 'secret')
 
 auth = dash_auth.BasicAuth(
      app,
