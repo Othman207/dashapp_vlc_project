@@ -514,6 +514,332 @@ options_8 = {
 
 }
 
+nova_int = [
+    [
+        1656324240.0,
+        9.3
+    ],
+    [
+        1656324840.0,
+        7.8
+    ],
+    [
+        1656325440.0,
+        6.4
+    ],
+    [
+        1656326040.0,
+        5.2
+    ],
+    [
+        1656326640.0,
+        10.6
+    ],
+    [
+        1656327240.0,
+        11.3
+    ],
+    [
+        1656327840.0,
+        9.6
+    ],
+    [
+        1656328440.0,
+        8.3
+    ],
+    [
+        1656329040.0,
+        7.1
+    ],
+    [
+        1656329640.0,
+        5.9
+    ],
+    [
+        1656330180.0,
+        5.0
+    ],
+    [
+        1656330780.0,
+        5.8
+    ],
+    [
+        1656331380.0,
+        5.3
+    ],
+    [
+        1656331980.0,
+        6.8
+    ],
+    [
+        1656332580.0,
+        6.2
+    ],
+    [
+        1656333180.0,
+        5.6
+    ],
+    [
+        1656333780.0,
+        5.1
+    ],
+    [
+        1656334380.0,
+        6.2
+    ],
+    [
+        1656334980.0,
+        6.3
+    ],
+    [
+        1656335580.0,
+        5.9
+    ],
+    [
+        1656336180.0,
+        5.3
+    ],
+    [
+        1656336780.0,
+        5.8
+    ],
+    [
+        1656337380.0,
+        5.6
+    ],
+    [
+        1656337980.0,
+        8.7
+    ],
+    [
+        1656338580.0,
+        7.4
+    ],
+    [
+        1656339180.0,
+        6.7
+    ],
+    [
+        1656339780.0,
+        5.8
+    ],
+    [
+        1656340380.0,
+        6.1
+    ],
+    [
+        1656340980.0,
+        7.3
+    ],
+    [
+        1656341580.0,
+        6.0
+    ],
+    [
+        1656342180.0,
+        5.2
+    ],
+    [
+        1656342780.0,
+        5.5
+    ],
+    [
+        1656343380.0,
+        7.9
+    ],
+    [
+        1656343980.0,
+        6.8
+    ],
+    [
+        1656344580.0,
+        5.8
+    ],
+    [
+        1656345180.0,
+        5.2
+    ],
+    [
+        1656345780.0,
+        5.9
+    ],
+    [
+        1656346380.0,
+        5.5
+    ],
+    [
+        1656346980.0,
+        7.9
+    ],
+    [
+        1656347580.0,
+        6.4
+    ],
+    [
+        1656348180.0,
+        5.3
+    ],
+    [
+        1656348780.0,
+        5.8
+    ],
+    [
+        1656349380.0,
+        5.1
+    ],
+    [
+        1656349980.0,
+        5.6
+    ]
+]
+options_9 = {
+    'chart': {
+        'type': 'area',
+        'zoomType': 'x',
+        'panning': True,
+        'panKey': 'shift',
+        'scrollablePlotArea': {
+            'minWidth': 1000
+        }
+        },
+    'caption': {
+        'text': '(scroll right to view more) Data from Parsly Temperature Monitoring Devices were triangulated with location data from Novacom CLS'
+    },
+
+    'title': {
+        'text': 'Temperature Monitoring of the Vaccine Land Cruiser for Distribution of Vaccines'
+    },
+
+    'credits': {
+        'enabled': True
+        'text': 'Toyota TTC, Parsyl'
+    },
+
+    'annotations': [{
+        'draggable': '',
+        'labelOptions': {
+            'backgroundColor': '#ffffff',
+            'verticalAlign': 'top',
+            'y': 15
+        },
+        'labels': [{
+            'point': {
+                'xAxis': 0,
+                'yAxis': 0,
+                'x': 1656327840.0,
+                'y': 9.6
+            },
+            'text': 'City: Ndiaye, Engine: Running, Ignition: ON'
+        }, {
+            'point': {
+                'xAxis': 0,
+                'yAxis': 0,
+                'x': 1656328440.0,
+                'y': 8.3
+            },
+            'text': 'City: Ndiaye, Engine: Running, Ignition: ON'
+        }, {
+            'point': {
+                'xAxis': 0,
+                'yAxis': 0,
+                'x': 1656330180.0,
+                'y': 5.0
+            },
+            'text': 'City: Richard Toll, Engine: Running, Ignition: ON'
+        }, {
+            'point': {
+                'xAxis': 0,
+                'yAxis': 0,
+                'x': 1656331380.0,
+                'y': 5.3
+            },
+            'x': -10,
+            'text': 'City: Ndiaye, Engine: Running, Ignition: ON'
+        }, {
+            'point': {
+                'xAxis': 0,
+                'yAxis': 0,
+                'x': 1656341580.0,
+                'y': 6.0
+            },
+            'text': 'City: Ndiaye, Engine: Running, Ignition: ON'
+        }]
+    }, {
+        'draggable': '',
+        'labelOptions': {
+            'shape': 'connector',
+            'align': 'right',
+            'justify': False,
+            'crop': True,
+            'style': {
+                'fontSize': '0.8em',
+                'textOutline': '1px white'
+            }
+        },
+        'labels': [{
+            'point': {
+                'xAxis': 0,
+                'yAxis': 0,
+                'x': 1656327240,
+                'y': 11.3
+            },
+            'text': 'Driver stopped to remove ambient temperature recorder'
+        }]
+    }],
+
+    'xAxis': {
+        'type':'datetime',
+           'dateTimeLabelFormats': {
+                                   'second': '%d %H:%M:%S',
+                                   # 'minute': '%Y-%m-%d/%H:%M',
+                                   #  'hour': '%Y-%m-%d/%H:%M',
+                                   #  'day': '%Y/%m-%d',
+                                   #  'week': '%Y/%m-%d',
+                                   #  'month': '%Y-%m',
+                                   #  'year': '%Y'
+                                },
+        #'format': '{value:%m-%d}',
+        'tickInterval': 0.01,
+        'title': {
+            'text': 'Date/Time'
+        }
+    },
+
+    'yAxis': {
+        'startOnTick': True,
+        'endOnTick': True,
+        'maxPadding': '0.35',
+        'title': {
+            'text': 'Temperature'
+        },
+        'labels': {
+            'format': '{value} C'
+        }
+    },
+
+    'tooltip': {
+        'headerFormat': 'Time: {point.x:.1f} <br>',
+        'pointFormat': '{point.y} Degrees',
+        'shared': True
+    },
+
+    'legend': {
+        'enabled': False
+    },
+    'series': [{
+        'data': nova_int,
+        'lineColor': '#2f7ed8',
+        'color': '#B5CA92',
+        'fillOpacity': '0.5',
+        'name': 'Temperature',
+        'marker': {
+            'enabled': False
+        },
+        'threshold': 'null'
+    }]
+
+}
+
 
 
 layout = dbc.Container(
@@ -559,7 +885,9 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                 html.Div([dav.HighChart(id="avg-vol",constructorType='chart',options=options_1)],id="water"),
+
+                                                                 html.Div([dav.HighChart(id="container",constructorType='chart',options=options_9)], id='container'),
+                                                                    #dcc.Store(id='nov-data',data=nova_int),
                                                                      dbc.Tooltip("This is the total amount of routine immunization vaccines received in liters for each location", target="water")
                                                                  ],style={'color':'white'}
                                                     )
