@@ -703,7 +703,7 @@ options_9 = {
         }
         },
     'caption': {
-        'text': '(scroll right to view more) Data from Parsly Temperature Monitoring Devices were triangulated with location data from Novacom CLS'
+        'text': '(scroll right to view more records)'
     },
 
     'title': {
