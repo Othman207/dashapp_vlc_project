@@ -711,7 +711,7 @@ options_9 = {
     },
 
     'credits': {
-        'enabled': True
+        'enabled': True,
         'text': 'Toyota TTC, Parsyl'
     },
 
