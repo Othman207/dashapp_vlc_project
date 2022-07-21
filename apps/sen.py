@@ -489,7 +489,7 @@ options_9 = {
     'annotations': [{
         'draggable': '',
         'labelOptions': {
-            'backgroundColor': '#ffffff',
+            'backgroundColor': '#f5f61d',
             'verticalAlign': 'top',
             'y': 15
         },
