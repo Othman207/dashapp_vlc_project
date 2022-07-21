@@ -15,6 +15,7 @@ from app import app
 
 dataset2 = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/pete.xlsx')
 nova2 = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/intamb.csv'))
+nova = pd.read_csv(os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/IntVSNova.csv'))
 
 #nova2 = pd.read_csv(dataset3)
 internal = nova2[['Date Time', 'Internal']].dropna()
@@ -462,184 +463,6 @@ options_8 = {
 
 }
 
-nova_int = [
-    [
-        1656324240.0,
-        9.3
-    ],
-    [
-        1656324840.0,
-        7.8
-    ],
-    [
-        1656325440.0,
-        6.4
-    ],
-    [
-        1656326040.0,
-        5.2
-    ],
-    [
-        1656326640.0,
-        10.6
-    ],
-    [
-        1656327240.0,
-        11.3
-    ],
-    [
-        1656327840.0,
-        9.6
-    ],
-    [
-        1656328440.0,
-        8.3
-    ],
-    [
-        1656329040.0,
-        7.1
-    ],
-    [
-        1656329640.0,
-        5.9
-    ],
-    [
-        1656330180.0,
-        5.0
-    ],
-    [
-        1656330780.0,
-        5.8
-    ],
-    [
-        1656331380.0,
-        5.3
-    ],
-    [
-        1656331980.0,
-        6.8
-    ],
-    [
-        1656332580.0,
-        6.2
-    ],
-    [
-        1656333180.0,
-        5.6
-    ],
-    [
-        1656333780.0,
-        5.1
-    ],
-    [
-        1656334380.0,
-        6.2
-    ],
-    [
-        1656334980.0,
-        6.3
-    ],
-    [
-        1656335580.0,
-        5.9
-    ],
-    [
-        1656336180.0,
-        5.3
-    ],
-    [
-        1656336780.0,
-        5.8
-    ],
-    [
-        1656337380.0,
-        5.6
-    ],
-    [
-        1656337980.0,
-        8.7
-    ],
-    [
-        1656338580.0,
-        7.4
-    ],
-    [
-        1656339180.0,
-        6.7
-    ],
-    [
-        1656339780.0,
-        5.8
-    ],
-    [
-        1656340380.0,
-        6.1
-    ],
-    [
-        1656340980.0,
-        7.3
-    ],
-    [
-        1656341580.0,
-        6.0
-    ],
-    [
-        1656342180.0,
-        5.2
-    ],
-    [
-        1656342780.0,
-        5.5
-    ],
-    [
-        1656343380.0,
-        7.9
-    ],
-    [
-        1656343980.0,
-        6.8
-    ],
-    [
-        1656344580.0,
-        5.8
-    ],
-    [
-        1656345180.0,
-        5.2
-    ],
-    [
-        1656345780.0,
-        5.9
-    ],
-    [
-        1656346380.0,
-        5.5
-    ],
-    [
-        1656346980.0,
-        7.9
-    ],
-    [
-        1656347580.0,
-        6.4
-    ],
-    [
-        1656348180.0,
-        5.3
-    ],
-    [
-        1656348780.0,
-        5.8
-    ],
-    [
-        1656349380.0,
-        5.1
-    ],
-    [
-        1656349980.0,
-        5.6
-    ]
-]
 options_9 = {
     'chart': {
         'type': 'area',
@@ -655,7 +478,7 @@ options_9 = {
     },
 
     'title': {
-        'text': 'Temperature Monitoring of the Vaccine Land Cruiser for Distribution of Vaccines'
+        'text': 'Internal Temperature Monitoring of the Vaccine Land Cruiser for Distribution of Vaccines'
     },
 
     'credits': {
@@ -671,45 +494,20 @@ options_9 = {
             'y': 15
         },
         'labels': [{
-            'point': {
-                'xAxis': 0,
-                'yAxis': 0,
-                'x': 1656327840.0,
-                'y': 9.6
-            },
+            'point': 'a2',
             'text': 'City: Ndiaye, Engine: Running, Ignition: ON'
         }, {
-            'point': {
-                'xAxis': 0,
-                'yAxis': 0,
-                'x': 1656328440.0,
-                'y': 8.3
-            },
+            'point': 'a3',
             'text': 'City: Ndiaye, Engine: Running, Ignition: ON'
         }, {
-            'point': {
-                'xAxis': 0,
-                'yAxis': 0,
-                'x': 1656330180.0,
-                'y': 5.0
-            },
+            'point': 'a4',
             'text': 'City: Richard Toll, Engine: Running, Ignition: ON'
         }, {
-            'point': {
-                'xAxis': 0,
-                'yAxis': 0,
-                'x': 1656331380.0,
-                'y': 5.3
-            },
+            'point': 'a5',
             'x': -10,
             'text': 'City: Ndiaye, Engine: Running, Ignition: ON'
         }, {
-            'point': {
-                'xAxis': 0,
-                'yAxis': 0,
-                'x': 1656341580.0,
-                'y': 6.0
-            },
+            'point': 'a6',
             'text': 'City: Ndiaye, Engine: Running, Ignition: ON'
         }]
     }, {
@@ -725,32 +523,13 @@ options_9 = {
             }
         },
         'labels': [{
-            'point': {
-                'xAxis': 0,
-                'yAxis': 0,
-                'x': 1656327240,
-                'y': 11.3
-            },
+            'point': 'a1',
             'text': 'Driver stopped to remove ambient temperature recorder'
         }]
     }],
 
     'xAxis': {
-        'type':'datetime',
-           'dateTimeLabelFormats': {
-                                   'second': '%d %H:%M:%S',
-                                   # 'minute': '%Y-%m-%d/%H:%M',
-                                   #  'hour': '%Y-%m-%d/%H:%M',
-                                   #  'day': '%Y/%m-%d',
-                                   #  'week': '%Y/%m-%d',
-                                   #  'month': '%Y-%m',
-                                   #  'year': '%Y'
-                                },
-        #'format': '{value:%m-%d}',
-        'tickInterval': 0.01,
-        'title': {
-            'text': 'Date/Time'
-        }
+        'categories': nova['Date'].tolist()
     },
 
     'yAxis': {
@@ -775,7 +554,15 @@ options_9 = {
         'enabled': False
     },
     'series': [{
-        'data': nova_int,
+        #'data': nova['Temp'].tolist(),
+        'data': [9.3, 7.8, 6.4, 5.2,
+         10.6, {'y':11.3, 'id':'a1'}, {'y': 9.6,'id': 'a2'}, {'y':8.3,'id':'a3'}, 7.1,
+         5.9, {'y':5.0,'id':'a4'}, 5.8, 5.3, 6.8,
+         6.2, 5.6, 5.1, 6.2, 6.3, 5.9,
+         {'y':5.3,'id':'a5'}, 5.8, 5.6, 8.7, 7.4, 6.7,
+         5.8, 6.1, 7.3, {'y':6.0, 'id':'a6'}, 5.2, 5.5,
+         7.9, 6.8, 5.8, 5.2, 5.9, 5.5,
+         7.9, 6.4, 5.3, 5.8, 5.1, 5.6],
         'lineColor': '#2f7ed8',
         'color': '#B5CA92',
         'fillOpacity': '0.5',
@@ -787,6 +574,7 @@ options_9 = {
     }]
 
 }
+
 
 options_10 = {
     'chart': {
