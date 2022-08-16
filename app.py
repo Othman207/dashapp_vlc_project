@@ -14,7 +14,9 @@ scripts = ['https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.6/proj4.js',
                        'https://code.highcharts.com/highcharts.js',
                        'https://code.highcharts.com/modules/annotations.js',
                        'https://code.highcharts.com/modules/exporting.js',
-                       'https://code.highcharts.com/modules/accessibility.js']
+                       'https://code.highcharts.com/modules/accessibility.js',
+                       'https://code.highcharts.com/modules/drilldown.js',
+                        'https://code.highcharts.com/modules/export-data.js']
 
 app = dash.Dash(__name__,suppress_callback_exceptions=True,external_scripts=scripts,external_stylesheets=[dbc.themes.BOOTSTRAP],meta_tags=[
         {"name": "viewport", "content": "width=device-width, initial-scale=1"}

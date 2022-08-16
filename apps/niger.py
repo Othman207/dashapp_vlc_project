@@ -9,13 +9,12 @@ import datetime
 import dash_alternative_viz as dav
 #pip install git+https://github.com/plotly/dash-alternative-viz.git#egg=dash_alternative_viz
 from app import app
+import json
 
-
-district_lat = {'Boboye':12.883043369068268,'Tibiri':13.111496164791635, 'Loga':13.630843214618249, 'Gaya':11.885301486623014, 'Falmey':12.59218710888745,'Dogondoutchi':13.644155442065163,'Dioundiou':12.618310826888786, 'Dosso':13.050546691115104}
-
-district_lng = {'Boboye':2.6937908436502016,'Tibiri':4.01065349002892, 'Loga':3.5003297228187784, 'Gaya':3.454853618837945, 'Falmey':2.8502113335337578,'Dogondoutchi':4.033773700350723,'Dioundiou':3.543305405673443, 'Dosso':3.208135897880922}
 
 dataset = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/Attachment_1642767473.xlsx')
+
+delivery = os.path.join(os.path.dirname(os.path.abspath(__file__)),'data/Niger_Delivery_1.xlsx')
 
 df1 = pd.read_excel(dataset,"Uti2")
 
@@ -23,13 +22,36 @@ df2 = pd.read_excel(dataset,"DVDMT")
 
 df3 = pd.read_excel(dataset,"Logistics Costs",usecols=['Site','Annual Transportation Cost','Transport CPD'])
 
+d1 = pd.read_excel(delivery,"OTIF")
 
-#df2.replace('-',np.nan,inplace=True)
-#dataset = pd.read_excel("/data/Attachment_1642767473.xlsx")
+d2 = d1.groupby(by=['Vehicle']).mean()
+d3 = d2['Total Doses Delivered']
+d4 = d1.filter(['Vehicle','Total Doses Delivered'], axis=1)
+# d4.rename(columns={'Vehicle':'name', 'Total Doses Delivered':'y'}, inplace=True)
+d5 = d4.groupby(by=['Vehicle']).sum().reset_index()
+d5['Sum'] = d5['Total Doses Delivered'].sum()
+d5['Percent'] = d5['Total Doses Delivered']/d5['Sum']*100
+d5 = d5.filter(['Vehicle','Percent'], axis=1)
+d5['drilldown'] = d5['Vehicle']
 
-#df1 = pd.read_excel("Attachment_1642767473.xlsx","Uti2")
+d6 = d1.rename(columns={'DESTINATIONS / ALLOCATION Main_Allocation':'name', 'Vehicle':'id', }, inplace=False)
+d6['Sum'] = d6['Total Doses Delivered'].sum()
+d6['data'] = d6['Total Doses Delivered']/d6['Sum']*100
 
-#df2 = pd.read_excel("Attachment_1642767473.xlsx","DVDMT")
+d6 = d6.filter(['name','id', 'data'], axis=1)
+dvlc = d6[d6['id'].str.contains("VLC")]
+dvlc = dvlc.drop(['id'], axis=1)
+
+dvlc2 = dvlc.groupby(by=['name']).sum()
+
+dcon = d6[d6['id'].str.contains("Conventional Truck")]
+dcon = dcon.drop(['id'], axis=1)
+
+dcon2= dcon.groupby(by=['name']).sum()
+
+new = d5.rename(columns={'Vehicle':'name', 'Percent':'y'}, inplace=False)
+
+new2 = new.groupby(new.columns, axis=1).agg(lambda x: x.to_numpy().tolist() if x.shape[1]>1 else x.to_numpy().flatten()).to_dict('records')
 
 df2.rename(columns={'VPO_Unopened vial wastage_VVM status':'OPV_Unopened vial wastage_VVM status',
                         'VPI_Unopened vial wastage_VVM status':'IPV_Unopened vial wastage_VVM status',
@@ -102,8 +124,6 @@ df2['Monthly reports']= df2['Monthly reports'].apply(lambda x: x.strftime("%b-%y
 # Sum up all values of df1
 total_volume = df1.groupby(by=['Districts']).sum()
 
-total_volume['lat'] = total_volume.index.map(district_lat)
-total_volume['lon'] = total_volume.index.map(district_lng)
 
 avg_volume_district = df1.groupby(by=['Districts']).mean()
 
@@ -226,19 +246,22 @@ vvm_vacc = []
 
 freezing_vacc = []
 
-map_data = []
-
+vlc_delivery = []
+dcon_delivery = []
 
 for district in total_volume.index:
     volume_data.append([district,total_volume['Total Volume (L)'][district]])
-    map_data.append({'name':district,'lat':total_volume['lat'][district],'lon':total_volume['lon'][district],'volume':total_volume['Total Volume (L)'][district]})
+
 
 for district in df1['Districts'].unique():
     district_names.append({'label':district,'value':district})
 
-# for vaccine in total_vvm_change_by_vacc.index:
-#     vvm_vacc.append([vaccine,total_vvm_change_by_vacc['Total VVM Change'][vaccine]])
-#
+for name in dvlc2.index:
+    vlc_delivery.append([name,dvlc2['data'][name]])
+
+for name in dcon2.index:
+    dcon_delivery.append([name, dcon2['data'][name]])
+
 # for vaccine in total_freezing_by_vacc.index:
 #     freezing_vacc.append([vaccine,total_freezing_by_vacc['Total Freezing'][vaccine]])
 
@@ -588,6 +611,57 @@ options_8 = {
 
 }
 
+options_9 = {
+    'chart':       {
+        'type': 'pie'
+    },
+    'title':       {
+        'text': 'Distribution of Vaccines'
+    },
+    'subtitle':    {
+        'text': 'Click the slices to view districts'
+    },
+    'credits': {
+            'enabled': True,
+            'text': 'Source: Niger SMT 2022'
+        },
+    'plotOptions': {
+        'series': {
+            'dataLabels': {
+                'enabled': True,
+                'format':  '{point.name}: {point.y:.1f}%'
+            }
+        }
+    },
+
+    'tooltip':     {
+        'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+        'pointFormat':  '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+    },
+
+    'series':      [
+        {
+            'name': "Vehicle",
+            'colorByPoint': True,
+            'data': new2
+        }
+    ],
+    'drilldown':   {
+        'series': [{
+             'name': "VLC",
+             'id': "VLC",
+            'data': vlc_delivery
+        },
+            {
+                'name': "Conventional Truck",
+                'id':   "Conventional Truck",
+                'data': dcon_delivery
+            }
+        ]
+
+    }
+}
+
 
 
 layout = dbc.Container(
@@ -622,15 +696,20 @@ layout = dbc.Container(
                                                     dbc.CardBody(
                                                                  [
                                                                      html.H6([
-                                                                                 'Average Doses of Vaccines Transported per Month to Districts by Dosso Regional Store Cold Truck'],
+                                                                                 'Average Doses of Vaccines Transported per Month to Districts with Vaccine Land Cruiser'],
                                                                              id='avgvol',
                                                                              style={'text-align': 'center'}),
                                                                      dbc.Tooltip(
-                                                                         "This is the average number of doses transported to all the 8 districts of Dosso Region per month",
+                                                                         "This is the average number of doses transported to 5 districts (Boboye, Dogondoutchi, Falmey, Gaya, Loga) of Dosso Region per month",
                                                                          target="avgvol"),
-                                                                     html.H2(["{:,.0f}".format(avg_doses)],
-                                                                             style={'text-align': 'center',
-                                                                                    'font-size':  '5rem'})
+                                                                     html.H2(["{:,.0f}".format(d3.iat[1])],
+                                                                             style={'text-align': 'center', 'font-size':  '5rem'}),
+                                                                     html.H6(['Average Doses of Vaccines Transported per Month to Districts with Conventional Cold Truck'],
+                                                                             style={'text-align':'center'}, id="bsl_doses"),
+                                                                      html.H2(["{:,.0f}".format(d3.iat[0])],
+                                                                              style={'text-align':'center','font-size':'2rem'}),
+                                                                            dbc.Tooltip("This is the average number of doses transported to 3 districts (Dioundou, DS Dosso, Tibiri) of Dosso Region per month",
+                                                                                        target="bsl_doses")
                                                                  ]
                                                     )
                                                     ],className="shadow p-3 mb-5 bg-white rounded border-light"
@@ -655,10 +734,7 @@ layout = dbc.Container(
                                                     [
                                                     dbc.CardBody(
                                                                  [
-                                                                  html.H6(['Average Cold Truck CCE Utilization at 3,990 Liters Capacity'], id='bsl_uti',
-                                                                          style={'text-align':'center'}),
-                                                                     dbc.Tooltip('This is the percentage of conventional truck cold storage capacity that is ccupied by vaccines and their diluents for a given time period during transportation.', target='bsl_uti', flip=False),
-                                                                  html.H2([str("{:.2f}".format(avg_util))+'%'],style={'text-align':'center','font-size':'5rem'})
+                                                                    html.Div([dav.HighChart(id="deliveries_by_vehicle",constructorType='chart',options=options_9)]),
                                                                  ]
                                                     )
                                                     ],className="shadow p-3 mb-5 bg-white rounded border-light"
@@ -786,13 +862,3 @@ layout = dbc.Container(
 
                            ],fluid=True
 )
-
-# app.clientside_callback(
-#      ClientsideFunction(
-#          namespace='clientside',
-#          function_name='large_params_function'
-#      ),
-#      Output('map-1', 'children'),
-#      Input('map-1', 'id'),
-#      Input('map-data','data')
-#  )
