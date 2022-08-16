@@ -524,6 +524,10 @@ layout = dbc.Container(
                                    [
                                     dbc.Col(
                                             [
+                                            html.H6(['VLC Country Vaccine Delivery Strategy'],style={'text-align':'center'}),
+                                                     html.Iframe(id='6GuIztSudxWj', src="https://lucid.app/documents/embedded/d2aae078-75c0-42cd-a11a-24f395c06b00",
+                                                     style={"height": "400px", "width": "100%"},
+                                                      ),
                                             html.Div(id="datawrapper-chart-uxDWb"),
                                             #dcc.Tooltip(text="Map showing "),
                                             html.H6(['Map Showing the Last 100 Positions of the Vaccine Land Cruiser in Lena District'],style={'text-align':'center'}),

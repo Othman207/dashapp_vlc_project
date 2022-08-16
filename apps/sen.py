@@ -631,6 +631,10 @@ layout = dbc.Container(
                                    [
                                     dbc.Col(
                                             [
+                                            html.H6(['VLC Country Vaccine Delivery Strategy'],style={'text-align':'center'}),
+                                                                    html.Iframe(id='6GuIztSudxWj', src="https://lucid.app/documents/embedded/d2aae078-75c0-42cd-a11a-24f395c06b00",
+                                                                    style={"height": "400px", "width": "100%"},
+                                                                    ),
                                             html.Div(id="datawrapper-chart-uxDWb"),
                                             html.H6(['Map Showing the Last 100 Positions of the Vaccine Land Cruiser in St. Louis Region, Senegal'],style={'text-align':'center'}),
                                             html.Iframe(id='iframe',src="//www.arcgis.com/apps/Embed/index.html?webmap=4d86714227ca4eb092064fef1797efe7&extent=-16.841,15.8343,-15.3249,16.6544&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light",

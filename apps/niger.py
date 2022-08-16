@@ -676,16 +676,16 @@ layout = dbc.Container(
                                    [
                                    dbc.Col(
                                            [
+                                           html.H6(['VLC Country Vaccine Delivery Strategy'],style={'text-align':'center'}),
+                                                                                           html.Iframe(id='6GuIztSudxWj', src="https://lucid.app/documents/embedded/d2aae078-75c0-42cd-a11a-24f395c06b00",
+                                                                                           style={"height": "400px", "width": "100%"},
+                                                                                           ),
                                            html.Div(id='map-1'),
                                                html.H6(['Map Showing the Last 100 Positions of the Vaccine Land Cruiser in Dosso Region, Niger'],
                                                        style={'text-align': 'center'}),
                                                html.Iframe(id='iframe', src="//www.arcgis.com/apps/Embed/index.html?webmap=49466db84b9c4661a729362974c8af48&extent=3.196,13.0424,3.2078,13.0495&zoom=true&previewImage=false&scale=true&search=true&searchextent=true&legend=true&disable_scroll=true&theme=light",
                                                            style={"height": "500px", "width": "100%"},
-                                                           ),
-                                               html.H6(['Map Showing District Stores and Vaccination Points'],style={'text-align':'center'}),
-                                               html.Iframe(id='iframe', src="/assets/indexx.html",
-                                               style={"height": "400px", "width": "100%"},
-                                               )
+                                                           )
                                            ],md=4
                                    ),
 
